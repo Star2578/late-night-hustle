@@ -9,6 +9,10 @@ var camera: Camera3D
 var is_open: bool = true
 var is_animating: bool = false  # Prevents interaction during animation
 
+func _input(event):
+	if event is InputEventKey:
+		sub_viewport.push_input(event)
+
 func _ready():
 	camera = get_viewport().get_camera_3d()
 	viewport.material_override.albedo_texture = sub_viewport.get_texture()

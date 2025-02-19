@@ -1,7 +1,7 @@
 extends Camera3D
 
 @export var edge_area: float = 50
-@export var max_rotation_speed: float = 2.0
+@export var max_rotation_speed: float = 3.0
 @export var deadzone_width: float = 450
 @export var zoom_speed: float = 5.0
 @export var min_zoom: float = 50.0
