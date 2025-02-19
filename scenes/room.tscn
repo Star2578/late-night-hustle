@@ -62,7 +62,7 @@ mesh = SubResource("PlaneMesh_juy05")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.173568, 0)
 
 [node name="Notebook" parent="." instance=ExtResource("1_gkqh3")]
-transform = Transform3D(-1.22424e-08, 4.69943e-09, 0.3, 0.10751, 0.280074, 0, -0.280074, 0.10751, -1.31134e-08, 0.5, 0.215, 0.685)
+transform = Transform3D(-1.42828e-08, 5.48268e-09, 0.35, 0.125428, 0.326753, -3.05412e-14, -0.326753, 0.125428, -1.5299e-08, 0.5, 0.215, 0.745)
 
 [node name="Player" parent="." instance=ExtResource("1_asasv")]
 
