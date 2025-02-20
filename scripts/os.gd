@@ -41,7 +41,7 @@ func _decrease_battery(delta):
 		time_counter = 0
 		$OS/SubViewport/Battery/Label.text = str(battery) + "%"
 	
-	$OS/SubViewport/Battery/Value.scale.x = battery / 100
+	$OS/SubViewport/Battery/Value.scale.x = float(battery / 100.0)
 
 
 #################### Mail ####################

@@ -33,7 +33,6 @@ func toggle_lid():
 	is_animating = false
 	viewport.visible = is_open
 
-
 func _on_area_3d_input_event(camera: Camera3D, event: InputEvent, event_position, normal, shape_idx):
 	if event is InputEventMouseButton:
 		if event.button_index == MOUSE_BUTTON_LEFT:

@@ -65,6 +65,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.173568, 0)
 transform = Transform3D(-1.42828e-08, 5.48268e-09, 0.35, 0.125428, 0.326753, -3.05412e-14, -0.326753, 0.125428, -1.5299e-08, 0.5, 0.215, 0.745)
 
 [node name="Player" parent="." instance=ExtResource("1_asasv")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.540118, 0.483857, 1.1259)
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_70kq7")
