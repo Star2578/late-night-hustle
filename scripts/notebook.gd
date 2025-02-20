@@ -3,11 +3,15 @@ extends Node3D
 @onready var anim_player = $AnimationPlayer
 @onready var viewport = $Node/screen2/ViewportQuad
 @onready var sub_viewport = $Node/screen2/ViewportQuad/OS/SubViewport
+@onready var player = $"../Player"
 
+var notebook_pos: Vector3 = Vector3(0.54, 0.484, 1.126)
 var camera: Camera3D
+var move_speed: float = 2.0
 
-var is_open: bool = true
+var is_open: bool = false
 var is_animating: bool = false  # Prevents interaction during animation
+var moving_to_notebook: bool = false
 
 func _input(event):
 	if event is InputEventKey:
@@ -17,6 +21,16 @@ func _ready():
 	camera = get_viewport().get_camera_3d()
 	viewport.material_override.albedo_texture = sub_viewport.get_texture()
 
+func _process(delta):
+	if moving_to_notebook:
+		player.position = player.position.lerp(notebook_pos, move_speed * delta)
+		
+		# Stop moving if close enough to the target
+		if player.position.distance_to(notebook_pos) < 0.05:
+			player.position = notebook_pos
+			player.is_at_notebook = true
+			moving_to_notebook = false
+
 func toggle_lid():
 	if anim_player.is_playing():
 		return 
@@ -25,17 +39,28 @@ func toggle_lid():
 	if !is_open:
 		is_open = true
 		anim_player.play("open_lid")
+		$Node/screen2/ViewportQuad/OpenLidSound.play()
 	else:
 		is_open = false
 		anim_player.play("close_lid")
+		$Node/screen2/ViewportQuad/CloseLidSound.play()
+		$Node/screen2/ViewportQuad/RunningSound.stop()
 
 	await anim_player.animation_finished
 	is_animating = false
 	viewport.visible = is_open
 
+func _play_notebook_running_sound():
+	$Node/screen2/ViewportQuad/RunningSound.play()
+
 func _on_area_3d_input_event(camera: Camera3D, event: InputEvent, event_position, normal, shape_idx):
 	if event is InputEventMouseButton:
 		if event.button_index == MOUSE_BUTTON_LEFT:
+			if !player.is_at_notebook:
+				player.is_at_notebook = false
+				player.is_at_closet = false
+				moving_to_notebook = true
+				return
 			if !is_animating:
 				toggle_lid()
 

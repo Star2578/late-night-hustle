@@ -4,12 +4,18 @@ extends Camera3D
 @export var max_rotation_speed: float = 3.0
 @export var deadzone_width: float = 450
 
-var is_focus: bool = false
+@export_category("Setup")
+@export var notebook_pos: Vector3
+@export var closet_pos: Vector3
+
+var is_focus_notebook: bool = false
+var is_at_notebook: bool = true
+var is_at_closet: bool = false
 
 func _physics_process(delta):
-	_focus()
+	_zoom_notebook()
 	
-	if is_focus: return
+	if is_focus_notebook: return
 	
 	var mouse_pos = get_viewport().get_mouse_position()
 	var viewport_size = get_viewport().size
@@ -30,11 +36,14 @@ func _physics_process(delta):
 	
 	rotation_degrees.y = clamp(rotation_degrees.y, -60, 60)
 
-func _focus():
+func _zoom_notebook():
 	if $"../Notebook".is_open:
-		is_focus = true
+		is_focus_notebook = true
 		rotation.y = lerp_angle(rotation.y, 0, 0.1)
 		fov = lerpf(fov, 50, 0.1)
 	else:
-		is_focus = false
+		is_focus_notebook = false
 		fov = lerpf(fov, 75, 0.1)
+
+func _move_camera(to: Vector3):
+	position = lerp(position, to, 2.0)

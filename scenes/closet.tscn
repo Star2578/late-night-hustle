@@ -1,7 +1,9 @@
-[gd_scene load_steps=15 format=4 uid="uid://chx0h838w2inb"]
+[gd_scene load_steps=17 format=4 uid="uid://chx0h838w2inb"]
 
 [ext_resource type="Material" uid="uid://ca610e6linemo" path="res://materials/closet_mat.tres" id="2_fe2cx"]
 [ext_resource type="Script" path="res://scripts/closet.gd" id="2_j4s62"]
+[ext_resource type="AudioStream" uid="uid://b6gd1nr4hx7v2" path="res://audios/sfx/Car_door_opening.wav" id="3_8e75k"]
+[ext_resource type="AudioStream" uid="uid://b8ekv0h6jpta6" path="res://audios/sfx/Car_door_shutting.wav" id="4_cwkpy"]
 
 [sub_resource type="ArrayMesh" id="ArrayMesh_ve673"]
 _surfaces = [{
@@ -207,6 +209,12 @@ shape = SubResource("BoxShape3D_a7gcy")
 libraries = {
 "": SubResource("AnimationLibrary_qq4ay")
 }
+
+[node name="OpenClosetSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_8e75k")
+
+[node name="CloseClosetSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_cwkpy")
 
 [connection signal="input_event" from="Node3D" to="." method="_on_node_3d_input_event"]
 [connection signal="mouse_entered" from="Node3D" to="." method="_on_node_3d_2_mouse_entered"]

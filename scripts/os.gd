@@ -1,6 +1,12 @@
 extends MeshInstance3D
 
+@export_category("Battery")
 @export var decrease_every: float = 5.0
+
+@export_category("Anxiety Management")
+@export var balloon_pop_decrease: float = 1.0
+@export var correct_type_decrease: float = 1.0
+@export var incorrect_type_increase: float = 2.5
 
 @onready var click_sound = $ClickSound
 
@@ -51,9 +57,15 @@ func _physics_process(delta):
 					for balloon in game.get_children():
 						if balloon is TextureRect and balloon.is_in_group("Balloon"):
 							if is_colliding(bullet, balloon):
+								GameManager.decrease_anxiety(balloon_pop_decrease)
 								$OS/SubViewport/Game/Hit.play()
 								bullet.queue_free()
 								balloon.queue_free()
+		else:
+			title_counter += delta
+			if title_counter >= title_tick:
+				$OS/SubViewport/Game/GameBG/Menu/TitleShadow.label_settings.font_color = _generate_random_color()
+				title_counter = 0
 	else:
 		time_counter = 0
 
@@ -67,6 +79,12 @@ func _decrease_battery(delta):
 	
 	$OS/SubViewport/Battery/Value.scale.x = float(battery / 100.0)
 
+func _generate_random_color() -> Color:
+	return Color(
+	 randf(), # RED
+	 randf(), # GREEN
+	 randf(), # BLUE
+	)
 
 #################### Mail ####################
 
@@ -117,10 +135,12 @@ var word_list = [
 	"alien", "wrong", "duck", "entangle", "haste", "xX_DarkL0rd_Xx", "peaceful", "imagination",
 	"wind", "around", "corner", "lights", "battery", "clock", "mouse", "healthy", "gamer",
 	"apologize", "cunning", "thoughts", "bucket", "moon", "haunting", "look", "awake", "chair",
-	"close", "lookatyourleft", "something", "pearl", "funny", "yourname", "earth", "pluto", "lucky",
+	"close", "LookAtYourLeft", "something", "pearl", "funny", "YourName", "earth", "pluto", "lucky",
 	"noice", "playing", "elephant", "birb", "howareyou", "emerge", "click", "correct", "colorful",
-	"sparkly", "balloon", "popcorn", "marcus", "looking", "hiding", "peeking", "break", "anxiety",
+	"sparkly", "balloon", "popcorn", "Marcus", "looking", "hiding", "peeking", "break", "anxiety",
 	"sound", "pills", "drink", "trash", "godmode", "performance", "crawling", "hunting", "mewing",
+	"chewing", "GomuGomuNo", "Vinland", "tired", "llama", "ChadGPT", "beginning", "fluorine", "HelpMe",
+	"WAKEUP", "Insert", "cheetos", "tissue", "dancing", "calamity", "endless", "nightmare", "cloud"
 ]  
 var current_words = []  # Words currently displayed
 var current_index = 0  # Position in the list
@@ -283,10 +303,12 @@ func _check_word():
 		# Correct: Move to next word, increase progress
 		current_index += 1
 		progress_bar.value += 2
+		GameManager.decrease_anxiety(correct_type_decrease)
 		$CorrectSound.play()
 		_update_label()  # Refresh highlighting
 	else:
 		# Incorrect: Show error effect
+		GameManager.decrease_anxiety(incorrect_type_increase)
 		text_edit.add_theme_color_override("font_color", Color(1, 0, 0))  # Red text
 		$ErrorSound.play()
 		await get_tree().create_timer(0.3).timeout
@@ -308,10 +330,12 @@ func _check_word():
 @onready var bullet = preload("res://scenes/bullet.tscn")
 
 var spaceship_speed: float = 5000
-var shoot_delay: float = 0.5
+var shoot_delay: float = 0.75
 var shoot_counter: float = shoot_delay
 var spawn_tick: float = 2.0
 var spawn_counter: float = spawn_tick
+var title_tick : float = 0.5
+var title_counter: float = title_tick
 var game_start: bool = false
 
 func _open_game():

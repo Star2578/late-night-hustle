@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://d20ljn8oi1c8f"]
+[gd_scene load_steps=26 format=3 uid="uid://d20ljn8oi1c8f"]
 
 [ext_resource type="PackedScene" uid="uid://da1sbwa0yy1qs" path="res://models/Notebook/Notebook.gltf" id="1_3alp8"]
 [ext_resource type="Script" path="res://scripts/notebook.gd" id="2_4i235"]
@@ -14,6 +14,9 @@
 [ext_resource type="AudioStream" uid="uid://bc0pkuybntoap" path="res://audios/sfx/Bubble 1.wav" id="10_6srqm"]
 [ext_resource type="AudioStream" uid="uid://umgxfm104m8b" path="res://audios/sfx/Modern14.wav" id="10_d1qdv"]
 [ext_resource type="AudioStream" uid="uid://c48fuj1vsh3kl" path="res://audios/sfx/Balloon Pop 1.wav" id="11_mhuci"]
+[ext_resource type="AudioStream" uid="uid://0helfiwmxkn1" path="res://audios/sfx/laptop-open.wav" id="15_02ler"]
+[ext_resource type="AudioStream" uid="uid://cod6uffana2a0" path="res://audios/sfx/laptop_close.wav" id="16_q3pb1"]
+[ext_resource type="AudioStream" uid="uid://ytsa6e6qfemy" path="res://audios/ambients/laptop_running.wav" id="17_4noa7"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_3lyha"]
 size = Vector3(1, 0.2, 1.4)
@@ -36,12 +39,20 @@ font_size = 18
 font_size = 24
 font_color = Color(0, 0, 0, 1)
 
-[sub_resource type="LabelSettings" id="LabelSettings_joriy"]
+[sub_resource type="LabelSettings" id="LabelSettings_qj2lw"]
 font = ExtResource("8_42u5k")
 font_size = 48
 
+[sub_resource type="LabelSettings" id="LabelSettings_joriy"]
+font = ExtResource("8_42u5k")
+font_size = 48
+font_color = Color(0, 0, 0, 1)
+
 [node name="Notebook" instance=ExtResource("1_3alp8")]
 script = ExtResource("2_4i235")
+
+[node name="screen2" parent="Node" index="2"]
+transform = Transform3D(-0.422618, -0.906308, 0, 0.906308, -0.422618, 0, 0, 0, 1, 0.5, 0.0625, 0)
 
 [node name="LidArea3D" type="Area3D" parent="Node/screen2/screen" index="0"]
 
@@ -524,16 +535,34 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -20.0
-offset_top = -67.5
-offset_right = 20.0
-offset_bottom = -44.5
+offset_left = -198.5
+offset_top = -80.5
+offset_right = 198.5
+offset_bottom = -31.5
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_colors/font_color = Color(1, 0, 0, 1)
+text = "Balloon Poppin"
+label_settings = SubResource("LabelSettings_qj2lw")
+
+[node name="TitleShadow" type="Label" parent="Node/screen2/ViewportQuad/OS/SubViewport/Game/GameBG/Menu" index="1"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -197.5
+offset_top = -79.5
+offset_right = 199.5
+offset_bottom = -30.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 0, 0, 1)
 text = "Balloon Poppin"
 label_settings = SubResource("LabelSettings_joriy")
 
-[node name="Start" type="Button" parent="Node/screen2/ViewportQuad/OS/SubViewport/Game/GameBG/Menu" index="1"]
+[node name="Start" type="Button" parent="Node/screen2/ViewportQuad/OS/SubViewport/Game/GameBG/Menu" index="2"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -550,7 +579,7 @@ theme_override_fonts/font = ExtResource("8_42u5k")
 theme_override_font_sizes/font_size = 18
 text = "Start"
 
-[node name="Tutorial" type="Label" parent="Node/screen2/ViewportQuad/OS/SubViewport/Game/GameBG/Menu" index="2"]
+[node name="Tutorial" type="Label" parent="Node/screen2/ViewportQuad/OS/SubViewport/Game/GameBG/Menu" index="3"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -566,6 +595,7 @@ grow_vertical = 2
 theme_override_fonts/font = ExtResource("8_42u5k")
 text = "WASD or Arrow to move
 Space to shoot"
+horizontal_alignment = 1
 
 [node name="Game" type="Control" parent="Node/screen2/ViewportQuad/OS/SubViewport/Game/GameBG" index="1"]
 visible = false
@@ -604,6 +634,17 @@ stream = ExtResource("10_d1qdv")
 stream = ExtResource("10_d1qdv")
 pitch_scale = 2.0
 
+[node name="OpenLidSound" type="AudioStreamPlayer" parent="Node/screen2/ViewportQuad" index="7"]
+stream = ExtResource("15_02ler")
+pitch_scale = 2.0
+
+[node name="CloseLidSound" type="AudioStreamPlayer" parent="Node/screen2/ViewportQuad" index="8"]
+stream = ExtResource("16_q3pb1")
+pitch_scale = 2.0
+
+[node name="RunningSound" type="AudioStreamPlayer" parent="Node/screen2/ViewportQuad" index="9"]
+stream = ExtResource("17_4noa7")
+
 [connection signal="input_event" from="Node/screen2/screen/LidArea3D" to="." method="_on_area_3d_input_event"]
 [connection signal="mouse_entered" from="Node/screen2/screen/LidArea3D" to="." method="_on_area_3d_mouse_entered"]
 [connection signal="mouse_exited" from="Node/screen2/screen/LidArea3D" to="." method="_on_area_3d_mouse_exited"]
@@ -625,3 +666,5 @@ pitch_scale = 2.0
 [connection signal="pressed" from="Node/screen2/ViewportQuad/OS/SubViewport/Task/TaskBG/Start" to="Node/screen2/ViewportQuad" method="_start_task"]
 [connection signal="pressed" from="Node/screen2/ViewportQuad/OS/SubViewport/Game/Close" to="Node/screen2/ViewportQuad" method="_close_game"]
 [connection signal="pressed" from="Node/screen2/ViewportQuad/OS/SubViewport/Game/GameBG/Menu/Start" to="Node/screen2/ViewportQuad" method="_start_game"]
+[connection signal="finished" from="Node/screen2/ViewportQuad/OpenLidSound" to="." method="_play_notebook_running_sound"]
+[connection signal="finished" from="Node/screen2/ViewportQuad/RunningSound" to="." method="_play_notebook_running_sound"]

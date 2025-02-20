@@ -120,7 +120,8 @@ omni_range = 1.5
 transform = Transform3D(-1.42828e-08, 5.48268e-09, 0.35, 0.125428, 0.326753, -3.05412e-14, -0.326753, 0.125428, -1.5299e-08, 0.5, 0.215, 0.745)
 
 [node name="Player" parent="." instance=ExtResource("1_asasv")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.540118, 0.483857, 1.1259)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.54, 0.484, 1.126)
+closet_pos = Vector3(-0.931, 0.949, 0.368)
 
 [node name="Desk" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.788021, 0.038463, 0.664452)
@@ -130,4 +131,5 @@ mesh = SubResource("BoxMesh_wop0h")
 transform = Transform3D(-1.74846e-08, 0, -0.4, 0, 0.4, 0, 0.4, 0, -1.74846e-08, -1.00914, 0, -0.681204)
 
 [node name="SpotLight3D" type="SpotLight3D" parent="closet_v2"]
-transform = Transform3D(2.3852, 2.13163e-14, 0.748893, -0.748893, -1.09278e-07, 2.3852, 3.27352e-08, -2.5, -1.0426e-07, 1.44848, 4.50703, 0.0778487)
+transform = Transform3D(0.954078, -7.48159e-09, 0.299557, -0.299557, -4.8804e-08, 0.954078, 7.48159e-09, -1, -4.8804e-08, 1.44848, 4.50703, 0.0778487)
+light_energy = 1.25
