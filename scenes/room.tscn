@@ -1,7 +1,8 @@
-[gd_scene load_steps=11 format=3 uid="uid://d06goaoonk8ag"]
+[gd_scene load_steps=12 format=3 uid="uid://d06goaoonk8ag"]
 
 [ext_resource type="PackedScene" uid="uid://bc3400p65ksoe" path="res://scenes/player.tscn" id="1_asasv"]
 [ext_resource type="PackedScene" uid="uid://d20ljn8oi1c8f" path="res://scenes/notebook.tscn" id="1_gkqh3"]
+[ext_resource type="PackedScene" uid="uid://chx0h838w2inb" path="res://scenes/closet.tscn" id="3_2prg0"]
 
 [sub_resource type="QuadMesh" id="QuadMesh_nkfxa"]
 size = Vector2(6, 1.5)
@@ -73,3 +74,6 @@ environment = SubResource("Environment_70kq7")
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.788021, 0.038463, 0.664452)
 mesh = SubResource("BoxMesh_wop0h")
+
+[node name="closet_v2" parent="." instance=ExtResource("3_2prg0")]
+transform = Transform3D(-1.74846e-08, 0, -0.4, 0, 0.4, 0, 0.4, 0, -1.74846e-08, -1.00914, 0, -0.681204)
