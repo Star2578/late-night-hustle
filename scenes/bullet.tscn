@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://euctnd1dix1j"]
+
+[ext_resource type="Script" path="res://scripts/bullet.gd" id="1_sduqj"]
+
+[sub_resource type="Texture2DRD" id="Texture2DRD_kc00l"]
+
+[node name="Bullet" type="TextureRect" groups=["Bullet"]]
+modulate = Color(0, 0, 0, 1)
+offset_right = 5.0
+offset_bottom = 15.0
+texture = SubResource("Texture2DRD_kc00l")
+expand_mode = 1
+script = ExtResource("1_sduqj")

@@ -1,0 +1,14 @@
+[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://ca610e6linemo"]
+
+[ext_resource type="Texture2D" uid="uid://c3ompuj0ghqww" path="res://sprites/brown-wooden-textured-flooring-background.jpg" id="1_55otl"]
+
+[resource]
+albedo_color = Color(0.825987, 0.564142, 0.418426, 1)
+albedo_texture = ExtResource("1_55otl")
+metallic = 0.1
+roughness = 0.8
+emission = Color(0.26451, 0.155957, 0.115248, 1)
+emission_energy_multiplier = 2.0
+clearcoat_enabled = true
+clearcoat = 0.2
+subsurf_scatter_strength = 0.49

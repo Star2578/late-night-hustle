@@ -1,29 +1,56 @@
-[gd_scene load_steps=12 format=3 uid="uid://d06goaoonk8ag"]
+[gd_scene load_steps=17 format=3 uid="uid://d06goaoonk8ag"]
 
 [ext_resource type="PackedScene" uid="uid://bc3400p65ksoe" path="res://scenes/player.tscn" id="1_asasv"]
 [ext_resource type="PackedScene" uid="uid://d20ljn8oi1c8f" path="res://scenes/notebook.tscn" id="1_gkqh3"]
+[ext_resource type="Material" uid="uid://d347a4su5vppb" path="res://materials/wall_mat.tres" id="1_w2ioa"]
+[ext_resource type="Texture2D" uid="uid://31u26f07j4xv" path="res://sprites/abstract-surface-wood-texture-background.jpg" id="2_4lyy1"]
 [ext_resource type="PackedScene" uid="uid://chx0h838w2inb" path="res://scenes/closet.tscn" id="3_2prg0"]
+[ext_resource type="Texture2D" uid="uid://or3cnje3dco2" path="res://sprites/white-wall-textures.jpg" id="5_j5l5k"]
+
+[sub_resource type="Environment" id="Environment_70kq7"]
+ambient_light_source = 2
+ambient_light_color = Color(1, 1, 1, 0.1)
+ambient_light_energy = 0.2
+glow_intensity = 1.0
+glow_bloom = 0.2
+fog_enabled = true
+fog_mode = 1
+fog_light_color = Color(0.0891157, 0.100965, 0.119595, 1)
+fog_density = 0.95
+fog_depth_curve = 0.5
+fog_depth_begin = 0.5
+fog_depth_end = 2.0
 
 [sub_resource type="QuadMesh" id="QuadMesh_nkfxa"]
+material = ExtResource("1_w2ioa")
 size = Vector2(6, 1.5)
 
 [sub_resource type="QuadMesh" id="QuadMesh_vmba6"]
+material = ExtResource("1_w2ioa")
 size = Vector2(2, 1.5)
 
 [sub_resource type="QuadMesh" id="QuadMesh_emryg"]
+material = ExtResource("1_w2ioa")
 size = Vector2(2.5, 1.5)
 
 [sub_resource type="QuadMesh" id="QuadMesh_igde4"]
+material = ExtResource("1_w2ioa")
 size = Vector2(4, 1.5)
 
+[sub_resource type="ORMMaterial3D" id="ORMMaterial3D_6fce0"]
+albedo_color = Color(0.729555, 0.670436, 0.585468, 1)
+orm_texture = ExtResource("2_4lyy1")
+
 [sub_resource type="PlaneMesh" id="PlaneMesh_juy05"]
+material = SubResource("ORMMaterial3D_6fce0")
 size = Vector2(6, 4)
 
-[sub_resource type="Environment" id="Environment_70kq7"]
-ambient_light_color = Color(1, 1, 1, 1)
+[sub_resource type="PlaneMesh" id="PlaneMesh_sxg3h"]
+size = Vector2(6, 4)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ffmbo"]
 albedo_color = Color(0.53307, 0.402215, 4.81307e-07, 1)
+albedo_texture = ExtResource("5_j5l5k")
 
 [sub_resource type="BoxMesh" id="BoxMesh_wop0h"]
 material = SubResource("StandardMaterial3D_ffmbo")
@@ -31,36 +58,63 @@ size = Vector3(1.4, 0.3, 0.5)
 
 [node name="Room" type="Node3D"]
 
-[node name="Wall" type="MeshInstance3D" parent="."]
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_70kq7")
+
+[node name="Walls" type="Node3D" parent="."]
+
+[node name="Wall" type="MeshInstance3D" parent="Walls"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.75, -1.002)
 mesh = SubResource("QuadMesh_nkfxa")
 skeleton = NodePath("../Floor")
 
-[node name="Wall2" type="MeshInstance3D" parent="."]
+[node name="Wall6" type="MeshInstance3D" parent="Walls"]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0.75, 3)
+mesh = SubResource("QuadMesh_nkfxa")
+skeleton = NodePath("../Floor")
+
+[node name="Wall2" type="MeshInstance3D" parent="Walls"]
 transform = Transform3D(1, 0, 0, 0, -1, 8.74228e-08, 0, -8.74228e-08, -1, -2, 0.75, 0.5)
 mesh = SubResource("QuadMesh_vmba6")
 skeleton = NodePath("../Floor")
 
-[node name="Wall3" type="MeshInstance3D" parent="."]
+[node name="Wall3" type="MeshInstance3D" parent="Walls"]
 transform = Transform3D(1.31134e-07, 0, 1, 0, 1, 0, -1, 0, 1.31134e-07, -1, 0.75, 1.75)
 mesh = SubResource("QuadMesh_emryg")
 skeleton = NodePath("../Floor")
 
-[node name="Wall4" type="MeshInstance3D" parent="."]
+[node name="Wall4" type="MeshInstance3D" parent="Walls"]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 3, 0.75, 1)
 mesh = SubResource("QuadMesh_igde4")
 skeleton = NodePath("../Floor")
 
-[node name="Floor" type="MeshInstance3D" parent="."]
+[node name="Wall5" type="MeshInstance3D" parent="Walls"]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -3, 0.75, 1)
+mesh = SubResource("QuadMesh_igde4")
+skeleton = NodePath("../Floor")
+
+[node name="Floor" type="MeshInstance3D" parent="Walls"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1)
 mesh = SubResource("PlaneMesh_juy05")
+skeleton = NodePath("../..")
 
-[node name="Floor2" type="MeshInstance3D" parent="."]
+[node name="Ceil" type="MeshInstance3D" parent="Walls"]
 transform = Transform3D(1, 0, 0, 0, -1, -8.74228e-08, 0, 8.74228e-08, -1, 0, 1.5, 1)
-mesh = SubResource("PlaneMesh_juy05")
+mesh = SubResource("PlaneMesh_sxg3h")
+skeleton = NodePath("../..")
 
-[node name="OmniLight3D" type="OmniLight3D" parent="Floor2"]
+[node name="OmniLight3D" type="OmniLight3D" parent="Walls/Ceil"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.173568, 0)
+visible = false
+
+[node name="Lights" type="Node3D" parent="."]
+visible = false
+
+[node name="OmniLight3D" type="OmniLight3D" parent="Lights"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.83321, 0.153363, -0.824002)
+light_color = Color(0.145098, 0.145098, 0.145098, 1)
+light_size = 0.3
+omni_range = 1.5
 
 [node name="Notebook" parent="." instance=ExtResource("1_gkqh3")]
 transform = Transform3D(-1.42828e-08, 5.48268e-09, 0.35, 0.125428, 0.326753, -3.05412e-14, -0.326753, 0.125428, -1.5299e-08, 0.5, 0.215, 0.745)
@@ -68,12 +122,12 @@ transform = Transform3D(-1.42828e-08, 5.48268e-09, 0.35, 0.125428, 0.326753, -3.
 [node name="Player" parent="." instance=ExtResource("1_asasv")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.540118, 0.483857, 1.1259)
 
-[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
-environment = SubResource("Environment_70kq7")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+[node name="Desk" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.788021, 0.038463, 0.664452)
 mesh = SubResource("BoxMesh_wop0h")
 
 [node name="closet_v2" parent="." instance=ExtResource("3_2prg0")]
 transform = Transform3D(-1.74846e-08, 0, -0.4, 0, 0.4, 0, 0.4, 0, -1.74846e-08, -1.00914, 0, -0.681204)
+
+[node name="SpotLight3D" type="SpotLight3D" parent="closet_v2"]
+transform = Transform3D(2.3852, 2.13163e-14, 0.748893, -0.748893, -1.09278e-07, 2.3852, 3.27352e-08, -2.5, -1.0426e-07, 1.44848, 4.50703, 0.0778487)

@@ -1,0 +1,14 @@
+[gd_scene load_steps=5 format=3 uid="uid://pg3lvlone871"]
+
+[ext_resource type="Script" path="res://scripts/balloon.gd" id="1_f4b6l"]
+[ext_resource type="Texture2D" uid="uid://dctyv7waw36s6" path="res://sprites/blue_ball.png" id="1_khgn1"]
+[ext_resource type="Texture2D" uid="uid://7dkvxmwqxmpr" path="res://sprites/green_ball.png" id="3_ha0q8"]
+[ext_resource type="Texture2D" uid="uid://banimsfw4s82s" path="res://sprites/red_ball.png" id="4_bd7mc"]
+
+[node name="Balloon" type="TextureRect" groups=["Balloon"]]
+offset_right = 51.2
+offset_bottom = 51.2
+texture = ExtResource("1_khgn1")
+expand_mode = 1
+script = ExtResource("1_f4b6l")
+sprites = Array[Texture2D]([ExtResource("1_khgn1"), ExtResource("3_ha0q8"), ExtResource("4_bd7mc")])

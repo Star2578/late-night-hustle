@@ -20,6 +20,10 @@ func _input(event):
 
 			elif event.keycode == KEY_SPACE:
 				_check_word()  # Normal space behavior
+	
+	if game_start:
+		var direction = Input.get_axis("left", "right")
+		_move_spaceship(direction)
 
 
 func _ready():
@@ -30,6 +34,26 @@ func _physics_process(delta):
 		_decrease_battery(delta)
 		if is_start:
 			_doing_task(delta)
+		if game_start:
+			_spawn_balloons()
+			
+			shoot_counter += delta
+			
+			if Input.is_action_just_pressed("shoot") and shoot_counter >= shoot_delay:
+				var instance = bullet.instantiate()
+				game.add_child(instance)
+				instance.position = spaceship.position + Vector2(24, 0)
+				shoot_delay = 0
+				$OS/SubViewport/Game/Shoot.play()
+		
+			for bullet in game.get_children():
+				if bullet is TextureRect and bullet.is_in_group("Bullet"):
+					for balloon in game.get_children():
+						if balloon is TextureRect and balloon.is_in_group("Balloon"):
+							if is_colliding(bullet, balloon):
+								$OS/SubViewport/Game/Hit.play()
+								bullet.queue_free()
+								balloon.queue_free()
 	else:
 		time_counter = 0
 
@@ -51,10 +75,10 @@ func _open_mail():
 	print("Open Mail")
 	$OS/SubViewport/Mail.visible = true
 	_close_task()
-	$OS/SubViewport/Game.visible = false
+	_close_game()
 
 func _close_mail():
-	click_sound.play()
+	if !click_sound.playing: click_sound.play()
 	$OS/SubViewport/Mail.visible = false
 
 func _mail_one():
@@ -106,14 +130,14 @@ func _open_task():
 	print("Open Task")
 	$OS/SubViewport/Task.visible = true
 	$OS/SubViewport/Mail.visible = false
-	$OS/SubViewport/Game.visible = false
+	_close_game()
 	$OS/SubViewport/Task/TaskBG/ProgressBar.visible = false
 	$OS/SubViewport/Task/TaskBG/Start.visible = false
 	text_edit.visible = false
 	word_label.visible = false
 
 func _close_task():
-	click_sound.play()
+	if !click_sound.playing: click_sound.play()
 	if idx != -1: tasks_progress[idx] = progress_bar.value
 	$OS/SubViewport/Task.visible = false
 	task_bg.visible = false
@@ -248,11 +272,11 @@ func _update_label():
 	
 	formatted_text = "[center]" + formatted_text + "[/center]"
 	
-	word_label.text = formatted_text.strip_edges()  # Apply BBCode formatting
-	word_label.queue_redraw()  # Ensure it's updated
+	word_label.text = formatted_text.strip_edges()
+	word_label.queue_redraw()
 
 func _check_word():
-	var typed_word = text_edit.text.strip_edges()  # Remove spaces
+	var typed_word = text_edit.text.strip_edges()
 	var correct_word = current_words[current_index]
 
 	if typed_word == correct_word:
@@ -268,7 +292,6 @@ func _check_word():
 		await get_tree().create_timer(0.3).timeout
 		text_edit.add_theme_color_override("font_color", Color(1, 1, 1))  # Reset color
 
-	# Clear input field
 	text_edit.text = ""
 
 	# If all words are typed, generate new ones
@@ -278,13 +301,68 @@ func _check_word():
 
 #################### Game ####################
 
+@onready var menu = $OS/SubViewport/Game/GameBG/Menu
+@onready var game = $OS/SubViewport/Game/GameBG/Game
+@onready var spaceship = $OS/SubViewport/Game/GameBG/Game/Spaceship
+@onready var balloon = preload("res://scenes/balloon.tscn")
+@onready var bullet = preload("res://scenes/bullet.tscn")
+
+var spaceship_speed: float = 5000
+var shoot_delay: float = 0.5
+var shoot_counter: float = shoot_delay
+var spawn_tick: float = 2.0
+var spawn_counter: float = spawn_tick
+var game_start: bool = false
+
 func _open_game():
 	click_sound.play()
 	print("Open Game")
 	$OS/SubViewport/Game.visible = true
 	$OS/SubViewport/Mail.visible = false
 	_close_task()
+	menu.visible = true
 
 func _close_game():
-	click_sound.play()
+	if !click_sound.playing: click_sound.play()
 	$OS/SubViewport/Game.visible = false
+	game.visible = false
+	game_start = false
+
+func _start_game():
+	if !click_sound.playing: click_sound.play()
+	menu.visible = false
+	game.visible = true
+	game_start = true
+
+func _spawn_balloons():
+	var spawn_pos_x = [15, 98, 182, 265, 348, 432, 515]
+	var num = randi_range(1, 3)
+	var delta = get_physics_process_delta_time()
+	spawn_counter += delta
+	
+	
+	if spawn_counter >= spawn_tick:
+		for i in range(num):
+			var instance = balloon.instantiate()
+			var idx = randi_range(0, spawn_pos_x.size() - 1)
+			game.add_child(instance)
+			instance.position.x = spawn_pos_x[idx]
+			instance.position.y = 15
+			instance.can_drop = true
+			spawn_pos_x.pop_at(idx)
+		spawn_counter = 0
+
+func is_colliding(rect1: TextureRect, rect2: TextureRect) -> bool:
+	var a = Rect2(rect1.position, rect1.size)
+	var b = Rect2(rect2.position, rect2.size)
+	return a.intersects(b)
+
+func _move_spaceship(direction: float):
+	if direction != 0:
+		var delta = get_physics_process_delta_time()
+		spaceship.position.x += direction * spaceship_speed * delta
+
+		# Keep spaceship inside the game screen bounds
+		var min_x = (game.size.x / 2.0) - 280
+		var max_x = game.size.x - 65
+		spaceship.position.x = clamp(spaceship.position.x, min_x, max_x)

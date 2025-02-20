@@ -1,9 +1,0 @@
-[gd_resource type="StandardMaterial3D" format=3 uid="uid://cewr4rtohgcqr"]
-
-[resource]
-albedo_color = Color(0.825987, 0.564142, 0.418426, 1)
-metallic = 0.1
-roughness = 0.8
-clearcoat_enabled = true
-clearcoat = 0.2
-subsurf_scatter_strength = 0.49

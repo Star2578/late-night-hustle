@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://d20ljn8oi1c8f"]
+[gd_scene load_steps=22 format=3 uid="uid://d20ljn8oi1c8f"]
 
 [ext_resource type="PackedScene" uid="uid://da1sbwa0yy1qs" path="res://models/Notebook/Notebook.gltf" id="1_3alp8"]
 [ext_resource type="Script" path="res://scripts/notebook.gd" id="2_4i235"]
@@ -8,13 +8,20 @@
 [ext_resource type="Texture2D" uid="uid://b16ntub4cd4fa" path="res://sprites/close.png" id="5_88567"]
 [ext_resource type="AudioStream" uid="uid://drbrtpxqjpx54" path="res://audios/sfx/click.wav" id="5_eo3yp"]
 [ext_resource type="Texture2D" uid="uid://bmgc38rtffy4y" path="res://sprites/balloon.png" id="6_wir7g"]
+[ext_resource type="FontFile" uid="uid://3naf4r3yowun" path="res://fonts/SHOWG.TTF" id="8_42u5k"]
+[ext_resource type="Texture2D" uid="uid://gbluoe7wrev" path="res://sprites/spaceship.png" id="8_ko504"]
 [ext_resource type="AudioStream" uid="uid://c8t0s21w7lcks" path="res://audios/sfx/Retro8.wav" id="9_p3wq5"]
+[ext_resource type="AudioStream" uid="uid://bc0pkuybntoap" path="res://audios/sfx/Bubble 1.wav" id="10_6srqm"]
 [ext_resource type="AudioStream" uid="uid://umgxfm104m8b" path="res://audios/sfx/Modern14.wav" id="10_d1qdv"]
+[ext_resource type="AudioStream" uid="uid://c48fuj1vsh3kl" path="res://audios/sfx/Balloon Pop 1.wav" id="11_mhuci"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_3lyha"]
 size = Vector3(1, 0.2, 1.4)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_vo773"]
+emission = Color(0.244776, 0.244776, 0.244776, 1)
+refraction_enabled = true
+grow_amount = 0.51
 
 [sub_resource type="QuadMesh" id="QuadMesh_itssi"]
 size = Vector2(1.4, 0.9)
@@ -28,6 +35,10 @@ font_size = 18
 [sub_resource type="LabelSettings" id="LabelSettings_5lcmk"]
 font_size = 24
 font_color = Color(0, 0, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_joriy"]
+font = ExtResource("8_42u5k")
+font_size = 48
 
 [node name="Notebook" instance=ExtResource("1_3alp8")]
 script = ExtResource("2_4i235")
@@ -51,7 +62,14 @@ transform = Transform3D(1, 1.77636e-15, -3.55271e-15, 0, 1, -7.31835e-16, 0, -7.
 transform = Transform3D(1, -3.55271e-15, 3.55271e-15, 0, 1, -7.31835e-16, 0, -7.31835e-16, 1, 0, 0, 0)
 shape = SubResource("BoxShape3D_dsdit")
 
-[node name="OS" type="Control" parent="Node/screen2/ViewportQuad" index="1"]
+[node name="OmniLight3D" type="OmniLight3D" parent="Node/screen2/ViewportQuad" index="1"]
+transform = Transform3D(-1.84732e-08, 3.9616e-08, 1, 1, 2.08616e-07, 1.84732e-08, -2.08616e-07, 1, -3.9616e-08, -8.55308e-08, -0.00951076, 0.646644)
+light_color = Color(0.581033, 0.581033, 0.581033, 1)
+light_energy = 0.5
+light_indirect_energy = 2.0
+omni_range = 1.0
+
+[node name="OS" type="Control" parent="Node/screen2/ViewportQuad" index="2"]
 layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0
@@ -327,7 +345,7 @@ offset_left = 5.0
 offset_top = 5.0
 offset_right = 54.0
 offset_bottom = 39.0
-text = "Task"
+text = "Task Manager"
 label_settings = SubResource("LabelSettings_5lcmk")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Node/screen2/ViewportQuad/OS/SubViewport/Task" index="3"]
@@ -440,6 +458,7 @@ bbcode_enabled = true
 text = "Placeholder"
 
 [node name="Game" type="Control" parent="Node/screen2/ViewportQuad/OS/SubViewport" index="5"]
+visible = false
 layout_mode = 3
 anchors_preset = 1
 anchor_left = 1.0
@@ -475,7 +494,7 @@ offset_left = 5.0
 offset_top = 5.0
 offset_right = 54.0
 offset_bottom = 39.0
-text = "Game"
+text = "Balloon V0.1"
 label_settings = SubResource("LabelSettings_5lcmk")
 
 [node name="GameBG" type="ColorRect" parent="Node/screen2/ViewportQuad/OS/SubViewport/Game" index="3"]
@@ -483,23 +502,105 @@ layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -255.0
+offset_left = -290.0
 offset_top = 55.0
-offset_right = 345.0
+offset_right = 290.0
 offset_bottom = 390.0
 grow_horizontal = 2
 color = Color(0.393086, 0.393086, 0.393085, 1)
 
-[node name="ClickSound" type="AudioStreamPlayer" parent="Node/screen2/ViewportQuad" index="2"]
+[node name="Menu" type="Control" parent="Node/screen2/ViewportQuad/OS/SubViewport/Game/GameBG" index="0"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Title" type="Label" parent="Node/screen2/ViewportQuad/OS/SubViewport/Game/GameBG/Menu" index="0"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -67.5
+offset_right = 20.0
+offset_bottom = -44.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "Balloon Poppin"
+label_settings = SubResource("LabelSettings_joriy")
+
+[node name="Start" type="Button" parent="Node/screen2/ViewportQuad/OS/SubViewport/Game/GameBG/Menu" index="1"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -37.5
+offset_top = 2.5
+offset_right = 37.5
+offset_bottom = 38.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("8_42u5k")
+theme_override_font_sizes/font_size = 18
+text = "Start"
+
+[node name="Tutorial" type="Label" parent="Node/screen2/ViewportQuad/OS/SubViewport/Game/GameBG/Menu" index="2"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -93.0
+offset_top = 62.5
+offset_right = 93.0
+offset_bottom = 111.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("8_42u5k")
+text = "WASD or Arrow to move
+Space to shoot"
+
+[node name="Game" type="Control" parent="Node/screen2/ViewportQuad/OS/SubViewport/Game/GameBG" index="1"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Spaceship" type="TextureRect" parent="Node/screen2/ViewportQuad/OS/SubViewport/Game/GameBG/Game" index="0"]
+layout_mode = 0
+offset_left = 264.4
+offset_top = 280.0
+offset_right = 520.4
+offset_bottom = 536.0
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("8_ko504")
+
+[node name="Shoot" type="AudioStreamPlayer" parent="Node/screen2/ViewportQuad/OS/SubViewport/Game" index="4"]
+stream = ExtResource("10_6srqm")
+
+[node name="Hit" type="AudioStreamPlayer" parent="Node/screen2/ViewportQuad/OS/SubViewport/Game" index="5"]
+stream = ExtResource("11_mhuci")
+
+[node name="ClickSound" type="AudioStreamPlayer" parent="Node/screen2/ViewportQuad" index="3"]
 stream = ExtResource("5_eo3yp")
 
-[node name="TaskDoneSound" type="AudioStreamPlayer" parent="Node/screen2/ViewportQuad" index="3"]
+[node name="TaskDoneSound" type="AudioStreamPlayer" parent="Node/screen2/ViewportQuad" index="4"]
 stream = ExtResource("9_p3wq5")
 
-[node name="CorrectSound" type="AudioStreamPlayer" parent="Node/screen2/ViewportQuad" index="4"]
+[node name="CorrectSound" type="AudioStreamPlayer" parent="Node/screen2/ViewportQuad" index="5"]
 stream = ExtResource("10_d1qdv")
 
-[node name="ErrorSound" type="AudioStreamPlayer" parent="Node/screen2/ViewportQuad" index="5"]
+[node name="ErrorSound" type="AudioStreamPlayer" parent="Node/screen2/ViewportQuad" index="6"]
 stream = ExtResource("10_d1qdv")
 pitch_scale = 2.0
 
@@ -523,3 +624,4 @@ pitch_scale = 2.0
 [connection signal="pressed" from="Node/screen2/ViewportQuad/OS/SubViewport/Task/VBoxContainer/Button6" to="Node/screen2/ViewportQuad" method="_task_six"]
 [connection signal="pressed" from="Node/screen2/ViewportQuad/OS/SubViewport/Task/TaskBG/Start" to="Node/screen2/ViewportQuad" method="_start_task"]
 [connection signal="pressed" from="Node/screen2/ViewportQuad/OS/SubViewport/Game/Close" to="Node/screen2/ViewportQuad" method="_close_game"]
+[connection signal="pressed" from="Node/screen2/ViewportQuad/OS/SubViewport/Game/GameBG/Menu/Start" to="Node/screen2/ViewportQuad" method="_start_game"]
