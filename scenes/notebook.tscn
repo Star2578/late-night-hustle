@@ -322,6 +322,7 @@ icon = ExtResource("5_88567")
 flat = true
 
 [node name="Header" type="Label" parent="Node/screen2/ViewportQuad/OS/SubViewport/Task" index="2"]
+layout_mode = 0
 offset_left = 5.0
 offset_top = 5.0
 offset_right = 54.0
@@ -470,12 +471,25 @@ icon = ExtResource("5_88567")
 flat = true
 
 [node name="Header" type="Label" parent="Node/screen2/ViewportQuad/OS/SubViewport/Game" index="2"]
+layout_mode = 0
 offset_left = 5.0
 offset_top = 5.0
 offset_right = 54.0
 offset_bottom = 39.0
 text = "Game"
 label_settings = SubResource("LabelSettings_5lcmk")
+
+[node name="GameBG" type="ColorRect" parent="Node/screen2/ViewportQuad/OS/SubViewport/Game" index="3"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -520.0
+offset_top = 55.0
+offset_right = -10.0
+offset_bottom = 390.0
+grow_horizontal = 0
+color = Color(0.393086, 0.393086, 0.393085, 1)
 
 [node name="ClickSound" type="AudioStreamPlayer" parent="Node/screen2/ViewportQuad" index="2"]
 stream = ExtResource("5_eo3yp")

@@ -40,6 +40,8 @@ func _decrease_battery(delta):
 		battery -= 1
 		time_counter = 0
 		$OS/SubViewport/Battery/Label.text = str(battery) + "%"
+	
+	$OS/SubViewport/Battery/Value.scale.x = battery / 100
 
 
 #################### Mail ####################
@@ -48,7 +50,7 @@ func _open_mail():
 	click_sound.play()
 	print("Open Mail")
 	$OS/SubViewport/Mail.visible = true
-	$OS/SubViewport/Task.visible = false
+	_close_task()
 	$OS/SubViewport/Game.visible = false
 
 func _close_mail():
@@ -80,12 +82,22 @@ func _mail_three():
 @onready var task_bg = $OS/SubViewport/Task/TaskBG
 @onready var word_label = $OS/SubViewport/Task/TaskBG/RichTextLabel
 @onready var text_edit = $OS/SubViewport/Task/TaskBG/TextEdit
-var tasks_progress = [0, 10.0, 88.88, 42.2, 5.004, 79.2]
+var tasks_progress = [0, 0, 0, 0, 0, 0]
 var idx = -1 # not select any task
 var tick = 1.0 # task increase tick rate
 var is_start = false
 
-var word_list = ["hello", "world", "ghost", "horror", "deadline", "task", "fear", "typing", "stress", "dark"]  
+var word_list = [
+	"ghost", "water", "hello", "new", "death", "sleep", "work", "midnight", "hungry",
+	"friends", "closet", "inside", "noise", "scare", "horror", "cold", "laptop", "bedroom",
+	"alien", "wrong", "duck", "entangle", "haste", "xX_DarkL0rd_Xx", "peaceful", "imagination",
+	"wind", "around", "corner", "lights", "battery", "clock", "mouse", "healthy", "gamer",
+	"apologize", "cunning", "thoughts", "bucket", "moon", "haunting", "look", "awake", "chair",
+	"close", "lookatyourleft", "something", "pearl", "funny", "yourname", "earth", "pluto", "lucky",
+	"noice", "playing", "elephant", "birb", "howareyou", "emerge", "click", "correct", "colorful",
+	"sparkly", "balloon", "popcorn", "marcus", "looking", "hiding", "peeking", "break", "anxiety",
+	"sound", "pills", "drink", "trash", "godmode", "performance", "crawling", "hunting", "mewing",
+]  
 var current_words = []  # Words currently displayed
 var current_index = 0  # Position in the list
 
@@ -102,10 +114,11 @@ func _open_task():
 
 func _close_task():
 	click_sound.play()
-	tasks_progress[idx] = progress_bar.value
+	if idx != -1: tasks_progress[idx] = progress_bar.value
 	$OS/SubViewport/Task.visible = false
 	task_bg.visible = false
 	is_start = false
+	idx = -1
 
 func _task_one():
 	click_sound.play()
@@ -270,7 +283,7 @@ func _open_game():
 	print("Open Game")
 	$OS/SubViewport/Game.visible = true
 	$OS/SubViewport/Mail.visible = false
-	$OS/SubViewport/Task.visible = false
+	_close_task()
 
 func _close_game():
 	click_sound.play()
