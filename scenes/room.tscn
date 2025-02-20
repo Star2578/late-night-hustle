@@ -1,8 +1,8 @@
-[gd_scene load_steps=10 format=3 uid="uid://d06goaoonk8ag"]
+[gd_scene load_steps=12 format=3 uid="uid://d06goaoonk8ag"]
 
-[ext_resource type="PackedScene" uid="uid://c5o4xwgllmsqs" path="res://models/Notebook.gltf" id="1_4ck4d"]
 [ext_resource type="PackedScene" uid="uid://bc3400p65ksoe" path="res://scenes/player.tscn" id="1_asasv"]
-[ext_resource type="PackedScene" uid="uid://chx0h838w2inb" path="res://scenes/closet.tscn" id="4_46ktm"]
+[ext_resource type="PackedScene" uid="uid://d20ljn8oi1c8f" path="res://scenes/notebook.tscn" id="1_gkqh3"]
+[ext_resource type="PackedScene" uid="uid://chx0h838w2inb" path="res://scenes/closet.tscn" id="3_2prg0"]
 
 [sub_resource type="QuadMesh" id="QuadMesh_nkfxa"]
 size = Vector2(6, 1.5)
@@ -21,6 +21,13 @@ size = Vector2(6, 4)
 
 [sub_resource type="Environment" id="Environment_70kq7"]
 ambient_light_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ffmbo"]
+albedo_color = Color(0.53307, 0.402215, 4.81307e-07, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_wop0h"]
+material = SubResource("StandardMaterial3D_ffmbo")
+size = Vector3(1.4, 0.3, 0.5)
 
 [node name="Room" type="Node3D"]
 
@@ -55,13 +62,17 @@ mesh = SubResource("PlaneMesh_juy05")
 [node name="OmniLight3D" type="OmniLight3D" parent="Floor2"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.173568, 0)
 
-[node name="blockbench_export" parent="." instance=ExtResource("1_4ck4d")]
-transform = Transform3D(-1.09278e-08, 0, 0.25, 0.098698, 0.229693, 4.31423e-09, -0.229693, 0.098698, -1.00402e-08, 0.528025, 0.279728, 0.850158)
+[node name="Notebook" parent="." instance=ExtResource("1_gkqh3")]
+transform = Transform3D(-1.42828e-08, 5.48268e-09, 0.35, 0.125428, 0.326753, -3.05412e-14, -0.326753, 0.125428, -1.5299e-08, 0.5, 0.215, 0.745)
 
 [node name="Player" parent="." instance=ExtResource("1_asasv")]
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_70kq7")
 
-[node name="closet_v2" parent="." instance=ExtResource("4_46ktm")]
-transform = Transform3D(-1.31134e-08, 0, -0.3, 0, 0.3, 0, 0.3, 0, -1.31134e-08, -1.00806, 0, -0.594471)
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.788021, 0.038463, 0.664452)
+mesh = SubResource("BoxMesh_wop0h")
+
+[node name="closet_v2" parent="." instance=ExtResource("3_2prg0")]
+transform = Transform3D(-1.74846e-08, 0, -0.4, 0, 0.4, 0, 0.4, 0, -1.74846e-08, -1.00914, 0, -0.681204)

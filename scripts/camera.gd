@@ -1,8 +1,23 @@
 extends Camera3D
 
 @export var edge_area: float = 50
-@export var max_rotation_speed: float = 2.0
-@export var deadzone_width: float = 200
+@export var max_rotation_speed: float = 3.0
+@export var deadzone_width: float = 450
+@export var zoom_speed: float = 5.0
+@export var min_zoom: float = 50.0
+@export var max_zoom: float = 75.0
+
+func _input(event):
+	if event is InputEventMouseButton:
+		if event.button_index == MOUSE_BUTTON_WHEEL_UP:
+			adjust_zoom(-zoom_speed)  # Zoom in
+		elif event.button_index == MOUSE_BUTTON_WHEEL_DOWN:
+			adjust_zoom(zoom_speed)  # Zoom out
+
+func adjust_zoom(amount):
+	# Adjusts zoom while keeping it within limits
+	var new_fov = fov + amount
+	fov = clamp(new_fov, min_zoom, max_zoom)
 
 func _physics_process(delta):
 	var mouse_pos = get_viewport().get_mouse_position()

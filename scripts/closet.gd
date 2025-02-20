@@ -17,3 +17,9 @@ func _on_node_3d_input_event(camera: Node, event: InputEvent, event_position: Ve
 				close_door()
 			else:
 				open_door()
+
+
+func _on_node_3d_2_mouse_entered() -> void:
+	Input.set_default_cursor_shape(Input.CURSOR_POINTING_HAND)
+func _on_node_3d_2_mouse_exited() -> void:
+	Input.set_default_cursor_shape(Input.CURSOR_ARROW)

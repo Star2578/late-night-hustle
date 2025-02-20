@@ -1,0 +1,27 @@
+{
+	"format_version": "1.8.0",
+	"animations": {
+		"close_lid": {
+			"animation_length": 1,
+			"bones": {
+				"screen": {
+					"rotation": {
+						"0.0": [0, 0, 0],
+						"1.0": [0, 0, 115]
+					}
+				}
+			}
+		},
+		"open_lid": {
+			"animation_length": 1,
+			"bones": {
+				"screen": {
+					"rotation": {
+						"0.0": [0, 0, 115],
+						"1.0": [0, 0, 0]
+					}
+				}
+			}
+		}
+	}
+}

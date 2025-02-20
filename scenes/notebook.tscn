@@ -1,0 +1,512 @@
+[gd_scene load_steps=17 format=3 uid="uid://d20ljn8oi1c8f"]
+
+[ext_resource type="PackedScene" uid="uid://da1sbwa0yy1qs" path="res://models/Notebook/Notebook.gltf" id="1_3alp8"]
+[ext_resource type="Script" path="res://scripts/notebook.gd" id="2_4i235"]
+[ext_resource type="Script" path="res://scripts/os.gd" id="3_hlrvb"]
+[ext_resource type="Texture2D" uid="uid://dgaceigcdxl05" path="res://sprites/mail.png" id="4_l37ps"]
+[ext_resource type="Texture2D" uid="uid://c476w4hjhgrrl" path="res://sprites/task.png" id="5_66np1"]
+[ext_resource type="Texture2D" uid="uid://b16ntub4cd4fa" path="res://sprites/close.png" id="5_88567"]
+[ext_resource type="AudioStream" uid="uid://drbrtpxqjpx54" path="res://audios/sfx/click.wav" id="5_eo3yp"]
+[ext_resource type="Texture2D" uid="uid://bmgc38rtffy4y" path="res://sprites/balloon.png" id="6_wir7g"]
+[ext_resource type="AudioStream" uid="uid://c8t0s21w7lcks" path="res://audios/sfx/Retro8.wav" id="9_p3wq5"]
+[ext_resource type="AudioStream" uid="uid://umgxfm104m8b" path="res://audios/sfx/Modern14.wav" id="10_d1qdv"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_3lyha"]
+size = Vector3(1, 0.2, 1.4)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_vo773"]
+
+[sub_resource type="QuadMesh" id="QuadMesh_itssi"]
+size = Vector2(1.4, 0.9)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_dsdit"]
+size = Vector3(1.4, 0.9, 0.1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_sa323"]
+font_size = 18
+
+[sub_resource type="LabelSettings" id="LabelSettings_5lcmk"]
+font_size = 24
+font_color = Color(0, 0, 0, 1)
+
+[node name="Notebook" instance=ExtResource("1_3alp8")]
+script = ExtResource("2_4i235")
+
+[node name="LidArea3D" type="Area3D" parent="Node/screen2/screen" index="0"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Node/screen2/screen/LidArea3D" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.2, 0, 0)
+shape = SubResource("BoxShape3D_3lyha")
+
+[node name="ViewportQuad" type="MeshInstance3D" parent="Node/screen2" index="1"]
+transform = Transform3D(-4.37114e-08, 0.422618, -0.906308, 0, 0.906308, 0.422618, 1, 1.84732e-08, -3.9616e-08, 0.198475, 0.501165, 1.11324e-07)
+material_override = SubResource("StandardMaterial3D_vo773")
+mesh = SubResource("QuadMesh_itssi")
+script = ExtResource("3_hlrvb")
+
+[node name="ScreenArea3D" type="Area3D" parent="Node/screen2/ViewportQuad" index="0"]
+transform = Transform3D(1, 1.77636e-15, -3.55271e-15, 0, 1, -7.31835e-16, 0, -7.31835e-16, 1, 0, 0, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Node/screen2/ViewportQuad/ScreenArea3D" index="0"]
+transform = Transform3D(1, -3.55271e-15, 3.55271e-15, 0, 1, -7.31835e-16, 0, -7.31835e-16, 1, 0, 0, 0)
+shape = SubResource("BoxShape3D_dsdit")
+
+[node name="OS" type="Control" parent="Node/screen2/ViewportQuad" index="1"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="SubViewport" type="SubViewport" parent="Node/screen2/ViewportQuad/OS" index="0"]
+size = Vector2i(700, 450)
+render_target_update_mode = 4
+
+[node name="Panel" type="Panel" parent="Node/screen2/ViewportQuad/OS/SubViewport" index="0"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Node/screen2/ViewportQuad/OS/SubViewport" index="1"]
+offset_right = 65.0
+offset_bottom = 200.0
+scale = Vector2(1.5, 1.5)
+
+[node name="Mail" type="Button" parent="Node/screen2/ViewportQuad/OS/SubViewport/VBoxContainer" index="0"]
+layout_mode = 2
+text = "MM"
+icon = ExtResource("4_l37ps")
+flat = true
+icon_alignment = 1
+vertical_icon_alignment = 0
+expand_icon = true
+
+[node name="Task" type="Button" parent="Node/screen2/ViewportQuad/OS/SubViewport/VBoxContainer" index="1"]
+layout_mode = 2
+text = "Work"
+icon = ExtResource("5_66np1")
+flat = true
+icon_alignment = 1
+vertical_icon_alignment = 0
+expand_icon = true
+
+[node name="Game" type="Button" parent="Node/screen2/ViewportQuad/OS/SubViewport/VBoxContainer" index="2"]
+layout_mode = 2
+text = "Balloon"
+icon = ExtResource("6_wir7g")
+flat = true
+icon_alignment = 1
+vertical_icon_alignment = 0
+expand_icon = true
+
+[node name="Battery" type="Control" parent="Node/screen2/ViewportQuad/OS/SubViewport" index="2"]
+layout_mode = 3
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -40.0
+offset_top = -40.0
+grow_horizontal = 0
+grow_vertical = 0
+
+[node name="BG" type="ColorRect" parent="Node/screen2/ViewportQuad/OS/SubViewport/Battery" index="0"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -60.0
+offset_top = -40.0
+offset_right = -10.0
+offset_bottom = -20.0
+grow_horizontal = 0
+grow_vertical = 0
+color = Color(0, 0, 0, 1)
+
+[node name="Value" type="ColorRect" parent="Node/screen2/ViewportQuad/OS/SubViewport/Battery" index="1"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -60.0
+offset_top = -40.0
+offset_right = -10.0
+offset_bottom = -20.0
+grow_horizontal = 0
+grow_vertical = 0
+color = Color(0.0431373, 0.858824, 0, 1)
+
+[node name="Label" type="Label" parent="Node/screen2/ViewportQuad/OS/SubViewport/Battery" index="2"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -90.0
+offset_top = -23.0
+offset_right = -43.0
+offset_bottom = 3.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "100%"
+label_settings = SubResource("LabelSettings_sa323")
+text_direction = 2
+
+[node name="Mail" type="Control" parent="Node/screen2/ViewportQuad/OS/SubViewport" index="3"]
+visible = false
+layout_mode = 3
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -600.0
+offset_bottom = 400.0
+grow_horizontal = 0
+
+[node name="ColorRect" type="ColorRect" parent="Node/screen2/ViewportQuad/OS/SubViewport/Mail" index="0"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Close" type="Button" parent="Node/screen2/ViewportQuad/OS/SubViewport/Mail" index="1"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -52.8
+offset_right = 211.2
+offset_bottom = 264.0
+grow_horizontal = 0
+scale = Vector2(0.2, 0.2)
+icon = ExtResource("5_88567")
+flat = true
+
+[node name="Header" type="Label" parent="Node/screen2/ViewportQuad/OS/SubViewport/Mail" index="2"]
+layout_mode = 1
+offset_left = 5.0
+offset_top = 5.0
+offset_right = 54.0
+offset_bottom = 39.0
+text = "Me-Mail"
+label_settings = SubResource("LabelSettings_5lcmk")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Node/screen2/ViewportQuad/OS/SubViewport/Mail" index="3"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 5.0
+offset_top = -145.0
+offset_right = 70.0
+offset_bottom = 200.0
+grow_vertical = 2
+
+[node name="Button1" type="Button" parent="Node/screen2/ViewportQuad/OS/SubViewport/Mail/VBoxContainer" index="0"]
+layout_mode = 2
+text = "Mail #1"
+
+[node name="Button2" type="Button" parent="Node/screen2/ViewportQuad/OS/SubViewport/Mail/VBoxContainer" index="1"]
+layout_mode = 2
+text = "Mail #2"
+
+[node name="Button3" type="Button" parent="Node/screen2/ViewportQuad/OS/SubViewport/Mail/VBoxContainer" index="2"]
+layout_mode = 2
+text = "Mail #3"
+
+[node name="MailBG" type="ColorRect" parent="Node/screen2/ViewportQuad/OS/SubViewport/Mail" index="4"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -520.0
+offset_top = 55.0
+offset_right = -10.0
+offset_bottom = 390.0
+grow_horizontal = 0
+color = Color(0.393086, 0.393086, 0.393085, 1)
+
+[node name="Content#1" type="RichTextLabel" parent="Node/screen2/ViewportQuad/OS/SubViewport/Mail/MailBG" index="0"]
+visible = false
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -250.0
+offset_right = 250.0
+offset_bottom = 300.0
+grow_horizontal = 2
+text = "Subject: Urgent Support Needed
+
+Hey,
+
+I'm really sorry, but I had an unexpected accident and won't be able to make it today. Would you be able to cover
+for me? I'll owe you one and will make sure to return the favor soon.
+
+Thanks,
+Marcus"
+
+[node name="Content#2" type="RichTextLabel" parent="Node/screen2/ViewportQuad/OS/SubViewport/Mail/MailBG" index="1"]
+visible = false
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -250.0
+offset_right = 250.0
+offset_bottom = 300.0
+grow_horizontal = 2
+text = "Subject: Alien Invasion Imminent
+
+Dear xX_DarkL0rd_Xx,
+
+We've received reports that aliens will be landing on Earth next Thursday to demand our snack food collection.
+We're offering a special discount on all chips, crackers, and pretzels in preparation for the impending invasion.
+
+Use code ALIENARMY at checkout for 15% off!
+
+Best,
+The Intergalactic Snack Co."
+
+[node name="Content#3" type="RichTextLabel" parent="Node/screen2/ViewportQuad/OS/SubViewport/Mail/MailBG" index="2"]
+visible = false
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -250.0
+offset_right = 250.0
+offset_bottom = 300.0
+grow_horizontal = 2
+text = "Subject: [REDACT]
+
+WAKE UP! WAKE UP! WAKE UP! WAKE UP! WAKE UP! WAKE UP! WAKE UP! WAKE UP! WAKE UP! WAKE UP! WAKE UP! WAKE UP! WAKE UP! WAKE UP! WAKE UP! WAKE UP! WAKE UP! WAKE UP! WAKE UP! WAKE UP! WAKE UP! WAKE UP! WAKE UP! WAKE UP! WAKE UP! WAKE UP! WAKE UP! WAKE UP! WAKE UP! WAKE UP! WAKE UP! WAKE UP! WAKE UP! WAKE UP! WAKE UP! WAKE UP! WAKE UP! WAKE UP! WAKE UP! WAKE UP! WAKE UP! WAKE UP! WAKE UP! WAKE UP! WAKE UP! WAKE UP! WAKE UP! WAKE UP! WAKE UP!"
+
+[node name="Task" type="Control" parent="Node/screen2/ViewportQuad/OS/SubViewport" index="4"]
+visible = false
+layout_mode = 3
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -600.0
+offset_bottom = 400.0
+grow_horizontal = 0
+
+[node name="ColorRect" type="ColorRect" parent="Node/screen2/ViewportQuad/OS/SubViewport/Task" index="0"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Close" type="Button" parent="Node/screen2/ViewportQuad/OS/SubViewport/Task" index="1"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -52.8
+offset_right = 211.2
+offset_bottom = 264.0
+grow_horizontal = 0
+scale = Vector2(0.2, 0.2)
+icon = ExtResource("5_88567")
+flat = true
+
+[node name="Header" type="Label" parent="Node/screen2/ViewportQuad/OS/SubViewport/Task" index="2"]
+offset_left = 5.0
+offset_top = 5.0
+offset_right = 54.0
+offset_bottom = 39.0
+text = "Task"
+label_settings = SubResource("LabelSettings_5lcmk")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Node/screen2/ViewportQuad/OS/SubViewport/Task" index="3"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 5.0
+offset_top = -145.0
+offset_right = 70.0
+offset_bottom = 200.0
+grow_vertical = 2
+
+[node name="Button1" type="Button" parent="Node/screen2/ViewportQuad/OS/SubViewport/Task/VBoxContainer" index="0"]
+layout_mode = 2
+text = "Task #1"
+
+[node name="Button2" type="Button" parent="Node/screen2/ViewportQuad/OS/SubViewport/Task/VBoxContainer" index="1"]
+layout_mode = 2
+text = "Task #2"
+
+[node name="Button3" type="Button" parent="Node/screen2/ViewportQuad/OS/SubViewport/Task/VBoxContainer" index="2"]
+layout_mode = 2
+text = "Task #3"
+
+[node name="Button4" type="Button" parent="Node/screen2/ViewportQuad/OS/SubViewport/Task/VBoxContainer" index="3"]
+layout_mode = 2
+text = "Task #4"
+
+[node name="Button5" type="Button" parent="Node/screen2/ViewportQuad/OS/SubViewport/Task/VBoxContainer" index="4"]
+layout_mode = 2
+text = "Task #5"
+
+[node name="Button6" type="Button" parent="Node/screen2/ViewportQuad/OS/SubViewport/Task/VBoxContainer" index="5"]
+layout_mode = 2
+text = "Task #6"
+
+[node name="TaskBG" type="ColorRect" parent="Node/screen2/ViewportQuad/OS/SubViewport/Task" index="4"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -520.0
+offset_top = 55.0
+offset_right = -10.0
+offset_bottom = 390.0
+grow_horizontal = 0
+color = Color(0.393086, 0.393086, 0.393085, 1)
+
+[node name="ProgressBar" type="ProgressBar" parent="Node/screen2/ViewportQuad/OS/SubViewport/Task/TaskBG" index="0"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -175.0
+offset_top = 50.0
+offset_right = 175.0
+offset_bottom = 90.0
+grow_horizontal = 2
+
+[node name="Start" type="Button" parent="Node/screen2/ViewportQuad/OS/SubViewport/Task/TaskBG" index="1"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -43.0
+offset_top = -57.5
+offset_right = 43.0
+offset_bottom = -26.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "Start Task"
+
+[node name="TextEdit" type="TextEdit" parent="Node/screen2/ViewportQuad/OS/SubViewport/Task/TaskBG" index="2"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -150.0
+offset_top = 62.5
+offset_right = 150.0
+offset_bottom = 102.5
+grow_horizontal = 2
+grow_vertical = 2
+context_menu_enabled = false
+drag_and_drop_selection_enabled = false
+virtual_keyboard_enabled = false
+middle_mouse_paste_enabled = false
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Node/screen2/ViewportQuad/OS/SubViewport/Task/TaskBG" index="3"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -200.0
+offset_top = 12.5
+offset_right = 200.0
+offset_bottom = 52.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/normal_font_size = 18
+theme_override_font_sizes/bold_font_size = 18
+bbcode_enabled = true
+text = "Placeholder"
+
+[node name="Game" type="Control" parent="Node/screen2/ViewportQuad/OS/SubViewport" index="5"]
+visible = false
+layout_mode = 3
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -600.0
+offset_bottom = 400.0
+grow_horizontal = 0
+
+[node name="ColorRect" type="ColorRect" parent="Node/screen2/ViewportQuad/OS/SubViewport/Game" index="0"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Close" type="Button" parent="Node/screen2/ViewportQuad/OS/SubViewport/Game" index="1"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -52.8
+offset_right = 211.2
+offset_bottom = 264.0
+grow_horizontal = 0
+scale = Vector2(0.2, 0.2)
+icon = ExtResource("5_88567")
+flat = true
+
+[node name="Header" type="Label" parent="Node/screen2/ViewportQuad/OS/SubViewport/Game" index="2"]
+offset_left = 5.0
+offset_top = 5.0
+offset_right = 54.0
+offset_bottom = 39.0
+text = "Game"
+label_settings = SubResource("LabelSettings_5lcmk")
+
+[node name="ClickSound" type="AudioStreamPlayer" parent="Node/screen2/ViewportQuad" index="2"]
+stream = ExtResource("5_eo3yp")
+
+[node name="TaskDoneSound" type="AudioStreamPlayer" parent="Node/screen2/ViewportQuad" index="3"]
+stream = ExtResource("9_p3wq5")
+
+[node name="CorrectSound" type="AudioStreamPlayer" parent="Node/screen2/ViewportQuad" index="4"]
+stream = ExtResource("10_d1qdv")
+
+[node name="ErrorSound" type="AudioStreamPlayer" parent="Node/screen2/ViewportQuad" index="5"]
+stream = ExtResource("10_d1qdv")
+pitch_scale = 2.0
+
+[connection signal="input_event" from="Node/screen2/screen/LidArea3D" to="." method="_on_area_3d_input_event"]
+[connection signal="mouse_entered" from="Node/screen2/screen/LidArea3D" to="." method="_on_area_3d_mouse_entered"]
+[connection signal="mouse_exited" from="Node/screen2/screen/LidArea3D" to="." method="_on_area_3d_mouse_exited"]
+[connection signal="input_event" from="Node/screen2/ViewportQuad/ScreenArea3D" to="." method="_screen_input"]
+[connection signal="pressed" from="Node/screen2/ViewportQuad/OS/SubViewport/VBoxContainer/Mail" to="Node/screen2/ViewportQuad" method="_open_mail"]
+[connection signal="pressed" from="Node/screen2/ViewportQuad/OS/SubViewport/VBoxContainer/Task" to="Node/screen2/ViewportQuad" method="_open_task"]
+[connection signal="pressed" from="Node/screen2/ViewportQuad/OS/SubViewport/VBoxContainer/Game" to="Node/screen2/ViewportQuad" method="_open_game"]
+[connection signal="pressed" from="Node/screen2/ViewportQuad/OS/SubViewport/Mail/Close" to="Node/screen2/ViewportQuad" method="_close_mail"]
+[connection signal="pressed" from="Node/screen2/ViewportQuad/OS/SubViewport/Mail/VBoxContainer/Button1" to="Node/screen2/ViewportQuad" method="_mail_one"]
+[connection signal="pressed" from="Node/screen2/ViewportQuad/OS/SubViewport/Mail/VBoxContainer/Button2" to="Node/screen2/ViewportQuad" method="_mail_two"]
+[connection signal="pressed" from="Node/screen2/ViewportQuad/OS/SubViewport/Mail/VBoxContainer/Button3" to="Node/screen2/ViewportQuad" method="_mail_three"]
+[connection signal="pressed" from="Node/screen2/ViewportQuad/OS/SubViewport/Task/Close" to="Node/screen2/ViewportQuad" method="_close_task"]
+[connection signal="pressed" from="Node/screen2/ViewportQuad/OS/SubViewport/Task/VBoxContainer/Button1" to="Node/screen2/ViewportQuad" method="_task_one"]
+[connection signal="pressed" from="Node/screen2/ViewportQuad/OS/SubViewport/Task/VBoxContainer/Button2" to="Node/screen2/ViewportQuad" method="_task_two"]
+[connection signal="pressed" from="Node/screen2/ViewportQuad/OS/SubViewport/Task/VBoxContainer/Button3" to="Node/screen2/ViewportQuad" method="_task_three"]
+[connection signal="pressed" from="Node/screen2/ViewportQuad/OS/SubViewport/Task/VBoxContainer/Button4" to="Node/screen2/ViewportQuad" method="_task_four"]
+[connection signal="pressed" from="Node/screen2/ViewportQuad/OS/SubViewport/Task/VBoxContainer/Button5" to="Node/screen2/ViewportQuad" method="_task_five"]
+[connection signal="pressed" from="Node/screen2/ViewportQuad/OS/SubViewport/Task/VBoxContainer/Button6" to="Node/screen2/ViewportQuad" method="_task_six"]
+[connection signal="pressed" from="Node/screen2/ViewportQuad/OS/SubViewport/Task/TaskBG/Start" to="Node/screen2/ViewportQuad" method="_start_task"]
+[connection signal="pressed" from="Node/screen2/ViewportQuad/OS/SubViewport/Game/Close" to="Node/screen2/ViewportQuad" method="_close_game"]
