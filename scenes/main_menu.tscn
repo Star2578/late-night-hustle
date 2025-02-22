@@ -1,0 +1,51 @@
+[gd_scene load_steps=7 format=3 uid="uid://dci22fakdtw6r"]
+
+[ext_resource type="Material" uid="uid://cubnp2f6ofc14" path="res://materials/floor_mat.tres" id="1_vttdr"]
+[ext_resource type="PackedScene" uid="uid://da1sbwa0yy1qs" path="res://models/Notebook/Notebook.gltf" id="2_8u1w4"]
+[ext_resource type="Script" path="res://scripts/flicker.gd" id="3_mg2ik"]
+[ext_resource type="AudioStream" uid="uid://c5nea6cp6wye3" path="res://audios/ambients/Fluorescent light bulb buzz_2.wav" id="4_ekjas"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_htxx6"]
+material = ExtResource("1_vttdr")
+size = Vector2(10, 10)
+
+[sub_resource type="Environment" id="Environment_f8rgt"]
+background_mode = 1
+background_color = Color(0.0666667, 0.0784314, 0.0941176, 1)
+ambient_light_source = 1
+fog_enabled = true
+fog_mode = 1
+fog_light_color = Color(0.0675685, 0.0776701, 0.0935515, 1)
+fog_density = 0.99
+fog_sky_affect = 0.0
+fog_depth_curve = 0.5
+fog_depth_begin = 0.1
+fog_depth_end = 2.0
+
+[node name="Menu" type="Node3D"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("PlaneMesh_htxx6")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_f8rgt")
+
+[node name="Notebook" parent="." instance=ExtResource("2_8u1w4")]
+transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 0, 0, 0)
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(0.218957, 0.167722, -0.961211, 0, 0.985116, 0.171893, 0.975735, -0.0376371, 0.215698, -0.371512, 0.20937, -0.046329)
+
+[node name="SpotLight3D" type="SpotLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0.762773, 6.87142e-09)
+distance_fade_enabled = true
+spot_range = 1.0
+spot_attenuation = -3.5
+spot_angle_attenuation = 2.0
+script = ExtResource("3_mg2ik")
+
+[node name="LightsSound" type="AudioStreamPlayer" parent="SpotLight3D"]
+stream = ExtResource("4_ekjas")
+autoplay = true
+
+[connection signal="finished" from="SpotLight3D/LightsSound" to="SpotLight3D" method="_loop_sfx"]

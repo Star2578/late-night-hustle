@@ -14,9 +14,9 @@
 [ext_resource type="AudioStream" uid="uid://bc0pkuybntoap" path="res://audios/sfx/Bubble 1.wav" id="10_6srqm"]
 [ext_resource type="AudioStream" uid="uid://umgxfm104m8b" path="res://audios/sfx/Modern14.wav" id="10_d1qdv"]
 [ext_resource type="AudioStream" uid="uid://c48fuj1vsh3kl" path="res://audios/sfx/Balloon Pop 1.wav" id="11_mhuci"]
-[ext_resource type="AudioStream" uid="uid://0helfiwmxkn1" path="res://audios/sfx/laptop-open.wav" id="15_02ler"]
+[ext_resource type="AudioStream" uid="uid://bq8od4bf0xglj" path="res://audios/sfx/laptop-open.wav" id="15_02ler"]
 [ext_resource type="AudioStream" uid="uid://cod6uffana2a0" path="res://audios/sfx/laptop_close.wav" id="16_q3pb1"]
-[ext_resource type="AudioStream" uid="uid://ytsa6e6qfemy" path="res://audios/ambients/laptop_running.wav" id="17_4noa7"]
+[ext_resource type="AudioStream" uid="uid://cxhncjmeo31gk" path="res://audios/ambients/laptop-running.wav" id="17_2yaoy"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_3lyha"]
 size = Vector3(1, 0.2, 1.4)
@@ -643,7 +643,7 @@ stream = ExtResource("16_q3pb1")
 pitch_scale = 2.0
 
 [node name="RunningSound" type="AudioStreamPlayer" parent="Node/screen2/ViewportQuad" index="9"]
-stream = ExtResource("17_4noa7")
+stream = ExtResource("17_2yaoy")
 
 [connection signal="input_event" from="Node/screen2/screen/LidArea3D" to="." method="_on_area_3d_input_event"]
 [connection signal="mouse_entered" from="Node/screen2/screen/LidArea3D" to="." method="_on_area_3d_mouse_entered"]

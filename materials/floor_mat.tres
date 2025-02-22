@@ -1,0 +1,7 @@
+[gd_resource type="ORMMaterial3D" load_steps=2 format=3 uid="uid://cubnp2f6ofc14"]
+
+[ext_resource type="Texture2D" uid="uid://31u26f07j4xv" path="res://sprites/abstract-surface-wood-texture-background.jpg" id="1_w4bb6"]
+
+[resource]
+albedo_color = Color(0.729555, 0.670436, 0.585468, 1)
+orm_texture = ExtResource("1_w4bb6")

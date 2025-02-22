@@ -1,0 +1,40 @@
+[gd_scene load_steps=7 format=3 uid="uid://dtv8n4ndfyc5g"]
+
+[ext_resource type="PackedScene" uid="uid://dncg2hm7y72qa" path="res://models/Fridge.gltf" id="1_u2vqw"]
+[ext_resource type="Script" path="res://scripts/fridge.gd" id="2_7vom6"]
+[ext_resource type="AudioStream" uid="uid://b6gd1nr4hx7v2" path="res://audios/sfx/Car_door_opening.wav" id="3_nt8lr"]
+[ext_resource type="AudioStream" uid="uid://b8ekv0h6jpta6" path="res://audios/sfx/Car_door_shutting.wav" id="4_kkmg2"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_i8hqw"]
+size = Vector3(3.74911, 1.73907, 0.636963)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_5v3ob"]
+size = Vector3(3.74911, 3.73122, 0.636963)
+
+[node name="Fridge" instance=ExtResource("1_u2vqw")]
+script = ExtResource("2_7vom6")
+
+[node name="Area3D" type="Area3D" parent="Node/door_top2" index="1"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Node/door_top2/Area3D" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.87209, 0.00753784, 0.181519)
+shape = SubResource("BoxShape3D_i8hqw")
+
+[node name="Area3D" type="Area3D" parent="Node/door_bottom2" index="1"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Node/door_bottom2/Area3D" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.87209, -0.125984, 0.155029)
+shape = SubResource("BoxShape3D_5v3ob")
+
+[node name="OpenFridgeSound" type="AudioStreamPlayer" parent="." index="2"]
+stream = ExtResource("3_nt8lr")
+
+[node name="CloseFridgeSound" type="AudioStreamPlayer" parent="." index="3"]
+stream = ExtResource("4_kkmg2")
+
+[connection signal="input_event" from="Node/door_top2/Area3D" to="." method="_on_node_3d_input_event"]
+[connection signal="mouse_entered" from="Node/door_top2/Area3D" to="." method="_on_node_3d_2_mouse_entered"]
+[connection signal="mouse_exited" from="Node/door_top2/Area3D" to="." method="_on_node_3d_2_mouse_exited"]
+[connection signal="input_event" from="Node/door_bottom2/Area3D" to="." method="_on_node_3d_input_event"]
+[connection signal="mouse_entered" from="Node/door_bottom2/Area3D" to="." method="_on_node_3d_2_mouse_entered"]
+[connection signal="mouse_exited" from="Node/door_bottom2/Area3D" to="." method="_on_node_3d_2_mouse_exited"]

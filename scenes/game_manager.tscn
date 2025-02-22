@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://dyxnhskmnynl3"]
+[gd_scene load_steps=7 format=3 uid="uid://dyxnhskmnynl3"]
 
 [ext_resource type="Script" path="res://scripts/game_manager.gd" id="1_p7d5q"]
 [ext_resource type="FontFile" uid="uid://bktipdnlnr4jt" path="res://fonts/vertopal.com_8514fix.ttf" id="2_gsh5f"]
+[ext_resource type="AudioStream" uid="uid://drbrtpxqjpx54" path="res://audios/sfx/click.wav" id="3_csf3e"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_gxd7i"]
 
@@ -9,21 +10,29 @@
 font = ExtResource("2_gsh5f")
 font_size = 28
 
+[sub_resource type="LabelSettings" id="LabelSettings_wtld3"]
+font = ExtResource("2_gsh5f")
+font_size = 96
+
 [node name="GameManager" type="Node"]
 script = ExtResource("1_p7d5q")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
-[node name="Control" type="Control" parent="CanvasLayer"]
+[node name="Anxiety" type="Control" parent="CanvasLayer"]
+visible = false
 layout_mode = 3
-anchors_preset = 0
-offset_left = 884.0
-offset_top = 25.0
-offset_right = 924.0
-offset_bottom = 65.0
-scale = Vector2(0.8, 0.8)
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = 489.0
+offset_top = 36.0
+offset_right = 529.0
+offset_bottom = 76.0
+grow_horizontal = 2
+scale = Vector2(1.4, 1.4)
 
-[node name="Anxiety Frame" type="ColorRect" parent="CanvasLayer/Control"]
+[node name="Anxiety Frame" type="ColorRect" parent="CanvasLayer/Anxiety"]
 material = SubResource("ShaderMaterial_gxd7i")
 layout_mode = 1
 anchors_preset = 4
@@ -35,7 +44,7 @@ offset_bottom = 15.0
 grow_vertical = 2
 color = Color(1, 1, 1, 0)
 
-[node name="Label" type="Label" parent="CanvasLayer/Control/Anxiety Frame"]
+[node name="Label" type="Label" parent="CanvasLayer/Anxiety/Anxiety Frame"]
 layout_mode = 1
 anchors_preset = 6
 anchor_left = 1.0
@@ -53,7 +62,7 @@ text = "Anxiety"
 label_settings = SubResource("LabelSettings_f8d5h")
 vertical_alignment = 1
 
-[node name="Top_Frame" type="ColorRect" parent="CanvasLayer/Control/Anxiety Frame"]
+[node name="Top_Frame" type="ColorRect" parent="CanvasLayer/Anxiety/Anxiety Frame"]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
@@ -64,7 +73,7 @@ offset_right = 165.0
 offset_bottom = -5.0
 grow_horizontal = 2
 
-[node name="Bot_Frame" type="ColorRect" parent="CanvasLayer/Control/Anxiety Frame"]
+[node name="Bot_Frame" type="ColorRect" parent="CanvasLayer/Anxiety/Anxiety Frame"]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
@@ -75,19 +84,21 @@ offset_right = 165.0
 offset_bottom = 45.0
 grow_horizontal = 2
 
-[node name="Left_Frame" type="ColorRect" parent="CanvasLayer/Control/Anxiety Frame"]
+[node name="Left_Frame" type="ColorRect" parent="CanvasLayer/Anxiety/Anxiety Frame"]
+layout_mode = 0
 offset_left = -15.0
 offset_top = -8.0
 offset_right = -5.0
 offset_bottom = 37.0
 
-[node name="Right_Frame" type="ColorRect" parent="CanvasLayer/Control/Anxiety Frame"]
+[node name="Right_Frame" type="ColorRect" parent="CanvasLayer/Anxiety/Anxiety Frame"]
+layout_mode = 0
 offset_left = 305.0
 offset_top = -8.0
 offset_right = 315.0
 offset_bottom = 37.0
 
-[node name="AnxietyGauge" type="ColorRect" parent="CanvasLayer/Control"]
+[node name="AnxietyGauge" type="ColorRect" parent="CanvasLayer/Anxiety"]
 layout_mode = 1
 anchors_preset = 4
 anchor_top = 0.5
@@ -97,3 +108,63 @@ offset_right = 300.0
 offset_bottom = 15.0
 grow_vertical = 2
 scale = Vector2(0.795, 1)
+
+[node name="MainMenu" type="Control" parent="CanvasLayer"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="CanvasLayer/MainMenu"]
+layout_mode = 0
+offset_left = 120.0
+offset_top = 120.0
+offset_right = 694.0
+offset_bottom = 175.0
+text = "Late Night Hustle"
+label_settings = SubResource("LabelSettings_wtld3")
+
+[node name="Buttons" type="Control" parent="CanvasLayer/MainMenu"]
+anchors_preset = 0
+offset_left = 120.0
+offset_top = 150.0
+offset_right = 160.0
+offset_bottom = 190.0
+
+[node name="Start" type="Button" parent="CanvasLayer/MainMenu/Buttons"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = 281.5
+offset_right = 121.0
+offset_bottom = 326.5
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("2_gsh5f")
+theme_override_font_sizes/font_size = 64
+text = "Start"
+flat = true
+alignment = 0
+
+[node name="Quit" type="Button" parent="CanvasLayer/MainMenu/Buttons"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = 380.0
+offset_right = 168.0
+offset_bottom = 453.0
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("2_gsh5f")
+theme_override_font_sizes/font_size = 64
+text = "Quit"
+flat = true
+alignment = 0
+
+[node name="ClickSound" type="AudioStreamPlayer" parent="CanvasLayer/MainMenu/Buttons"]
+stream = ExtResource("3_csf3e")
+
+[connection signal="pressed" from="CanvasLayer/MainMenu/Buttons/Start" to="." method="_start_game"]
+[connection signal="pressed" from="CanvasLayer/MainMenu/Buttons/Quit" to="." method="_quit_game"]

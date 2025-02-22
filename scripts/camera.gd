@@ -2,23 +2,20 @@ extends Camera3D
 
 @export var edge_area: float = 50
 @export var max_rotation_speed: float = 3.0
-@export var deadzone_width: float = 450
-
-@export_category("Setup")
-@export var notebook_pos: Vector3
-@export var closet_pos: Vector3
+@export var deadzone_width: float = 200
 
 var is_focus_notebook: bool = false
 var is_at_notebook: bool = true
 var is_at_closet: bool = false
+var is_at_fridge: bool = false
 
 func _physics_process(delta):
 	_zoom_notebook()
 	
 	if is_focus_notebook: return
 	
-	var mouse_pos = get_viewport().get_mouse_position()
-	var viewport_size = get_viewport().size
+	var mouse_pos = get_window().get_mouse_position()
+	var viewport_size = get_window().size
 	
 	var left_deadzone = viewport_size.x / 2 - deadzone_width / 2
 	var right_deadzone = viewport_size.x / 2 + deadzone_width / 2

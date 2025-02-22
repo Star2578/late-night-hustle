@@ -34,6 +34,7 @@ func _on_node_3d_input_event(camera: Node, event: InputEvent, event_position: Ve
 			if !player.is_at_closet:
 				player.is_at_closet = false
 				player.is_at_notebook = false
+				player.is_at_fridge = false
 				moving_to_closet = true
 				return
 			if is_open:

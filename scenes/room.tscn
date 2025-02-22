@@ -3,9 +3,10 @@
 [ext_resource type="PackedScene" uid="uid://bc3400p65ksoe" path="res://scenes/player.tscn" id="1_asasv"]
 [ext_resource type="PackedScene" uid="uid://d20ljn8oi1c8f" path="res://scenes/notebook.tscn" id="1_gkqh3"]
 [ext_resource type="Material" uid="uid://d347a4su5vppb" path="res://materials/wall_mat.tres" id="1_w2ioa"]
-[ext_resource type="Texture2D" uid="uid://31u26f07j4xv" path="res://sprites/abstract-surface-wood-texture-background.jpg" id="2_4lyy1"]
+[ext_resource type="Material" uid="uid://cubnp2f6ofc14" path="res://materials/floor_mat.tres" id="2_7nylc"]
 [ext_resource type="PackedScene" uid="uid://chx0h838w2inb" path="res://scenes/closet.tscn" id="3_2prg0"]
 [ext_resource type="Texture2D" uid="uid://or3cnje3dco2" path="res://sprites/white-wall-textures.jpg" id="5_j5l5k"]
+[ext_resource type="PackedScene" uid="uid://dtv8n4ndfyc5g" path="res://scenes/fridge.tscn" id="7_1l2p8"]
 
 [sub_resource type="Environment" id="Environment_70kq7"]
 ambient_light_source = 2
@@ -37,12 +38,8 @@ size = Vector2(2.5, 1.5)
 material = ExtResource("1_w2ioa")
 size = Vector2(4, 1.5)
 
-[sub_resource type="ORMMaterial3D" id="ORMMaterial3D_6fce0"]
-albedo_color = Color(0.729555, 0.670436, 0.585468, 1)
-orm_texture = ExtResource("2_4lyy1")
-
 [sub_resource type="PlaneMesh" id="PlaneMesh_juy05"]
-material = SubResource("ORMMaterial3D_6fce0")
+material = ExtResource("2_7nylc")
 size = Vector2(6, 4)
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_sxg3h"]
@@ -119,17 +116,27 @@ omni_range = 1.5
 [node name="Notebook" parent="." instance=ExtResource("1_gkqh3")]
 transform = Transform3D(-1.42828e-08, 5.48268e-09, 0.35, 0.125428, 0.326753, -3.05412e-14, -0.326753, 0.125428, -1.5299e-08, 0.5, 0.215, 0.745)
 
+[node name="SpotLight3D" type="SpotLight3D" parent="Notebook"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0.0289361, 3.85766, -0.479321)
+light_energy = 1.25
+
 [node name="Player" parent="." instance=ExtResource("1_asasv")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.54, 0.484, 1.126)
-closet_pos = Vector3(-0.931, 0.949, 0.368)
 
 [node name="Desk" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.788021, 0.038463, 0.664452)
 mesh = SubResource("BoxMesh_wop0h")
 
-[node name="closet_v2" parent="." instance=ExtResource("3_2prg0")]
+[node name="Closet" parent="." instance=ExtResource("3_2prg0")]
 transform = Transform3D(-1.74846e-08, 0, -0.4, 0, 0.4, 0, 0.4, 0, -1.74846e-08, -1.00914, 0, -0.681204)
 
-[node name="SpotLight3D" type="SpotLight3D" parent="closet_v2"]
-transform = Transform3D(0.954078, -7.48159e-09, 0.299557, -0.299557, -4.8804e-08, 0.954078, 7.48159e-09, -1, -4.8804e-08, 1.44848, 4.50703, 0.0778487)
+[node name="SpotLight3D" type="SpotLight3D" parent="Closet"]
+transform = Transform3D(0.837843, -7.08813e-09, 0.545912, -0.545912, -2.38626e-08, 0.837843, 7.08813e-09, -1, -2.38626e-08, 2.2121, 4.36838, -0.137952)
+light_energy = 1.25
+
+[node name="Fridge" parent="." instance=ExtResource("7_1l2p8")]
+transform = Transform3D(0.15, 0, 0, 0, 0.15, 0, 0, 0, 0.15, 2.53775, 1.19209e-07, -0.709361)
+
+[node name="SpotLight3D" type="SpotLight3D" parent="Fridge"]
+transform = Transform3D(-4.37114e-08, 1, 0, -0.546102, -2.38709e-08, 0.837719, 0.837719, 3.66178e-08, 0.546102, 0.0289356, 10.0207, 4.31237)
 light_energy = 1.25

@@ -45,13 +45,15 @@ func toggle_lid():
 		anim_player.play("close_lid")
 		$Node/screen2/ViewportQuad/CloseLidSound.play()
 		$Node/screen2/ViewportQuad/RunningSound.stop()
+		$Node/screen2/ViewportQuad/OpenLidSound.stop()
 
 	await anim_player.animation_finished
 	is_animating = false
 	viewport.visible = is_open
 
 func _play_notebook_running_sound():
-	$Node/screen2/ViewportQuad/RunningSound.play()
+	if is_open:
+		$Node/screen2/ViewportQuad/RunningSound.play()
 
 func _on_area_3d_input_event(camera: Camera3D, event: InputEvent, event_position, normal, shape_idx):
 	if event is InputEventMouseButton:
@@ -59,6 +61,7 @@ func _on_area_3d_input_event(camera: Camera3D, event: InputEvent, event_position
 			if !player.is_at_notebook:
 				player.is_at_notebook = false
 				player.is_at_closet = false
+				player.is_at_fridge = false
 				moving_to_notebook = true
 				return
 			if !is_animating:

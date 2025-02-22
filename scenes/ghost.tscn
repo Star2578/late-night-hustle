@@ -1,0 +1,15 @@
+[gd_scene load_steps=2 format=3 uid="uid://ccsyctxrapnsy"]
+
+[ext_resource type="PackedScene" uid="uid://boun63857w0yw" path="res://models/ghost.glb" id="1_g73s6"]
+
+[node name="ghost" instance=ExtResource("1_g73s6")]
+
+[node name="Skeleton3D" parent="Armature" index="0"]
+bones/6/scale = Vector3(1, 1, 1)
+bones/7/position = Vector3(0.0235646, 2.48769, -0.0324667)
+bones/7/rotation = Quaternion(3.83912e-05, 0.00141362, 5.17045e-06, 0.999999)
+bones/7/scale = Vector3(1, 1, 0.999997)
+bones/8/rotation = Quaternion(0.0129037, -0.365158, 0.0622027, 0.928776)
+bones/8/scale = Vector3(1, 1, 1)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." index="1"]
